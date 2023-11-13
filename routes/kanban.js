@@ -46,4 +46,37 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedKanban = await kanbanModel.findOneAndDelete({
+      _id: req.params.id,
+    });
+
+    if (!deletedKanban) {
+      return res.status(404).json({ message: "Kanban entry not found" });
+    }
+
+    res.json({ message: "Kanban entry deleted successfully", deletedKanban });
+  } catch (err) {
+    res.status(500).send("Error deleting Kanban entry: " + err);
+  }
+});
+
+router.delete("/all", async (req, res) => {
+  try {
+    // Delete all kanban entries
+    const result = await kanbanModel.deleteMany({});
+
+    // Check if any entries were deleted
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ message: "No kanban entries found to delete" });
+    }
+
+    res.json({ message: "All kanban entries deleted successfully" });
+  } catch (err) {
+    res.status(500).send("Error deleting kanban entries: " + err);
+  }
+});
 module.exports = router;
