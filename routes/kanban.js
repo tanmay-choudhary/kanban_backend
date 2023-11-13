@@ -37,12 +37,26 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
-    const kanban = await kanbanModel.findById(req.params.id);
-    kanban.sub = req.body.sub;
-    const a1 = await kanban.save();
-    res.json(a1);
+    const { id } = req.params;
+    const { name, description } = req.body;
+
+    // Use findByIdAndUpdate for a more concise update
+    const kanban = await kanbanModel.findByIdAndUpdate(
+      id,
+      { name, description },
+      { new: true, runValidators: true }
+    );
+
+    if (!kanban) {
+      // If the kanban with the specified ID is not found
+      return res.status(404).json({ error: "Kanban not found" });
+    }
+
+    res.json(kanban);
   } catch (err) {
-    res.send("Error");
+    // Handle validation errors or other errors
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
