@@ -2,11 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const url = "mongodb://127.0.0.1/kanban"; // Use IPv4 loopback address
-
+const dburl =
+  "mongodb+srv://tanmaychoudharyrewa:8klMB6mxlkZyp9Li@cluster0.zqhhtd5.mongodb.net/?retryWrites=true&w=majority";
 const app = express();
 
 mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
   })
