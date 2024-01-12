@@ -26,10 +26,12 @@ app.use(cors());
 const kanbanRouter = require("./routes/kanban");
 const deleteAllRouter = require("./routes/deleteAll"); // Correct path to the router file
 const tasks = require("./routes/tasks"); // Correct path to the router file
+const weather = require("./routes/weather"); // Correct path to the router file
 
 app.use("/kanban", kanbanRouter);
 app.use("/deleteAll", deleteAllRouter); // Correct mounting point
 app.use("/tasks", tasks); // Correct mounting point
+app.use("/weather", weather);
 
 app.listen(8080, () => {
   console.log("Server started on port 8080");
